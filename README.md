@@ -21,6 +21,7 @@
 
 - Для удобства вы можете переименовать свой проект:
 
-![Переименование проекта](https://github.com/user-attachments/assets/42180c0a-2a7d-460f-8718-1bff82387d96)
+![Переименование проекта](https://github.com/user-attachments/assets/464cd19a-91b2-4fe3-ab02-dd456f0ea63a)
+
 
 Теперь у вас должно быть всё настроено для работы с OpenCV. Удачи!
