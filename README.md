@@ -5,7 +5,7 @@
 - Переходим по ссылке: [OpenCV 4.9.0](https://sourceforge.net/projects/opencvlibrary/)
 - Сохраняем архив с OpenCV на диск C:
 
-![Сохранение OpenCV](https://github.com/user-attachments/assets/3e0d36f7-1635-4f8e-a852-1d6bea7a2e5d)
+![Сохранение OpenCV](![image](https://github.com/user-attachments/assets/1dbf5896-6168-481e-9f01-590642c52c19)
 
 ## 2. Скачивание и настройка проекта
 
