@@ -132,6 +132,8 @@
   <ItemGroup>
     <ClCompile Include="Code3.3.cpp" />
     <ClCompile Include="Code3.4.cpp" />
+    <ClCompile Include="LR1-3.cpp" />
+    <ClCompile Include="LR1-2.cpp" />
     <ClCompile Include="LR1.cpp" />
     <ClCompile Include="TestOpenCV.V2.cpp" />
   </ItemGroup>

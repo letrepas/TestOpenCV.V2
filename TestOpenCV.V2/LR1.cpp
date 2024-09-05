@@ -5,7 +5,6 @@ void mouseCallback(int event, int x, int y, int flags, void* param);
 
 Point trianglePoints[3];
 int pointCount;
-bool startDraw;
 bool triangleDraw;
 
 void drawTriangle(Mat* pimg)
@@ -15,7 +14,7 @@ void drawTriangle(Mat* pimg)
         const Point* pts[1] = { trianglePoints };
         int npts[] = { 3 };
 
-        polylines(*pimg, pts, npts, 1, true, Scalar(0, 0, 255), 2);  
+        polylines(*pimg, pts, npts, 1, true, Scalar(0, 0, 0));  
     }
 }
 
@@ -24,14 +23,14 @@ int main(int argc, char* argv[])
     Mat image = Mat(Size(500, 500), CV_8UC3, Scalar(0xff, 0xff, 0xff)); 
     Mat temp = image.clone();
 
-    namedWindow("Triangle Example");
-    setMouseCallback("Triangle Example", mouseCallback, (void*)&image);
+    namedWindow("1");
+    setMouseCallback("1", mouseCallback, (void*)&image);
 
     while (1)
     {
         image.copyTo(temp);
         if (triangleDraw) drawTriangle(&temp);
-        imshow("Triangle Example", temp);
+        imshow("1", temp);
 
         if (waitKey(15) == 27) break;
     }
@@ -47,20 +46,20 @@ void mouseCallback(int event, int x, int y, int flags, void* param)
     switch (event)
     {
     case EVENT_LBUTTONDOWN:
-        if (pointCount < 3)  // Store up to 3 points
+        if (pointCount < 3)
         {
             trianglePoints[pointCount] = Point(x, y);
             pointCount++;
             if (pointCount == 3)
             {
                 triangleDraw = true;
-                drawTriangle(pimg);  // Draw triangle
+                drawTriangle(pimg); 
             }
         }
         break;
 
     case EVENT_MBUTTONDOWN:
-        pointCount = 0;  // Reset 
+        pointCount = 0; 
         break;
     }
 }

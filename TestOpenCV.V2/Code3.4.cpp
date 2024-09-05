@@ -18,7 +18,7 @@
 //        Scalar(lineBlack, lineBlack, lineBlack));
 //}
 //
-//int ain(int argc, char* argv[])
+//int main(int argc, char* argv[])
 //{
 //    Mat image = Mat(Size(500, 500), CV_8UC3,
 //        Scalar(0xff, 0xff, 0xff));
