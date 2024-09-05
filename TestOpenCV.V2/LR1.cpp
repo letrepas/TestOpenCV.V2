@@ -1,74 +1,73 @@
 #include <opencv2/opencv.hpp>
 using namespace cv;
-void mouseCallback(int event, int x, int y,
-    int flags, void* param);
+using namespace std;
 
-Point pointLineStart;
-Point pointLineFinish;
-bool startDraw;
-bool lineDraw;
-double lineBlack;
+void mouseCallback(int event, int x, int y, int flags, void* param);
 
-void drawLine(Mat* pimg)
+Point trianglePoints[3];
+int pointCount = 0;
+bool startDraw = false;
+bool triangleDraw = false;
+
+void drawTriangle(Mat* pimg)
 {
-    line(
-        *pimg,
-        pointLineStart,
-        pointLineFinish,
-        Scalar(lineBlack, lineBlack, lineBlack));
+    if (pointCount == 3)
+    {
+        const Point* pts[1] = { trianglePoints };
+        int npts[] = { 3 };
+
+        polylines(*pimg, pts, npts, 1, true, Scalar(0, 0, 255), 2);  
+    }
 }
 
 int main(int argc, char* argv[])
 {
-    Mat image = Mat(Size(500, 500), CV_8UC3,
-        Scalar(0xff, 0xff, 0xff));
-
+    Mat image = Mat(Size(500, 500), CV_8UC3, Scalar(0xff, 0xff, 0xff)); 
     Mat temp = image.clone();
+
     namedWindow("Triangle Example");
-    setMouseCallback("Triangle Example", mouseCallback,
-        (void*)&image);
+    setMouseCallback("Triangle Example", mouseCallback, (void*)&image);
+
     while (1)
     {
         image.copyTo(temp);
-        if (lineDraw) drawLine(&temp);
+        if (triangleDraw) drawTriangle(&temp);
         imshow("Triangle Example", temp);
-        if (waitKey(15) == 27) break;
+
+        int key = waitKey(15);
+        if (key == 27) break;
+        if (key == 's' || key == 'S')
+        {
+            imwrite("result.png", image);
+            cout << "Saved as triangle_result.png" << endl;
+        }
     }
+
     destroyWindow("Triangle Example");
 }
 
-void mouseCallback(int event, int x, int y,
-    int flags, void* param)
+void mouseCallback(int event, int x, int y, int flags, void* param)
 {
     Mat* pimg = (Mat*)param;
+
     switch (event)
     {
-    case EVENT_MOUSEMOVE:
-        if (startDraw)
-        {
-            pointLineFinish.x = x;
-            pointLineFinish.y = y;
-        }
-        break;
     case EVENT_LBUTTONDOWN:
-        if (!startDraw)
+        if (pointCount < 3)  // Store up to 3 points
         {
-            pointLineStart.x =
-                pointLineFinish.x = x;
-            pointLineStart.y =
-                pointLineFinish.y = y;
-            startDraw = true;
+            trianglePoints[pointCount] = Point(x, y);
+            pointCount++;
+            if (pointCount == 3)
+            {
+                triangleDraw = true;
+                drawTriangle(pimg);  // Draw triangle once all 3 points are set
+            }
         }
-        lineDraw = true;
         break;
-    case EVENT_LBUTTONUP:
-        lineDraw = false;
-        drawLine(pimg);
-        pointLineStart.x = pointLineFinish.x;
-        pointLineStart.y = pointLineFinish.y;
-        break;
-    case EVENT_MBUTTONUP:
-        startDraw = lineDraw = false;
+
+    case EVENT_MBUTTONDOWN:
+        pointCount = 0;  // Reset triangle drawing with middle mouse button
+        //triangleDraw = false;
         break;
     }
 }
