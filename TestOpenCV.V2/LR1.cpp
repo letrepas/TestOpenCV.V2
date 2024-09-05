@@ -1,13 +1,12 @@
 #include <opencv2/opencv.hpp>
 using namespace cv;
-using namespace std;
 
 void mouseCallback(int event, int x, int y, int flags, void* param);
 
 Point trianglePoints[3];
-int pointCount = 0;
-bool startDraw = false;
-bool triangleDraw = false;
+int pointCount;
+bool startDraw;
+bool triangleDraw;
 
 void drawTriangle(Mat* pimg)
 {
@@ -34,15 +33,10 @@ int main(int argc, char* argv[])
         if (triangleDraw) drawTriangle(&temp);
         imshow("Triangle Example", temp);
 
-        int key = waitKey(15);
-        if (key == 27) break;
-        if (key == 's' || key == 'S')
-        {
-            imwrite("result.png", image);
-            cout << "Saved as triangle_result.png" << endl;
-        }
+        if (waitKey(15) == 27) break;
     }
 
+    imwrite("result.png", image);
     destroyWindow("Triangle Example");
 }
 
@@ -60,14 +54,13 @@ void mouseCallback(int event, int x, int y, int flags, void* param)
             if (pointCount == 3)
             {
                 triangleDraw = true;
-                drawTriangle(pimg);  // Draw triangle once all 3 points are set
+                drawTriangle(pimg);  // Draw triangle
             }
         }
         break;
 
     case EVENT_MBUTTONDOWN:
-        pointCount = 0;  // Reset triangle drawing with middle mouse button
-        //triangleDraw = false;
+        pointCount = 0;  // Reset 
         break;
     }
 }
